@@ -13,10 +13,19 @@ import {
   Button,
   CardHeader,
   Avatar,
+  makeStyles,
 } from "@material-ui/core";
 import { Link } from "react-router-dom";
 
+const useStyles = makeStyles((theme) => ({
+  card: {
+    minHeight: 345,
+  },
+}));
+
 const CollectionBox = (props) => {
+  const classes = useStyles();
+
   const [stories, setStories] = useState([]);
 
   useEffect(() => {
@@ -29,12 +38,12 @@ const CollectionBox = (props) => {
   console.log("test---------stories", stories);
   if (!stories.length) return null;
   return (
-    <Grid container spacing={3}>
+    <Grid container spacing={3} alignItems="stretch">
       {stories.slice(0, 10).map((item) => {
         const { story } = item;
         return (
-          <Grid key={item.id} item xs={3}>
-            <Card>
+          <Grid key={item.id} item xs={12} md={4} lg={3}>
+            <Card className={classes.card}>
               <CardActionArea component={Link} to={story.slug}>
                 <CardMedia
                   image="/static/images/cards/contemplative-reptile.jpg"
