@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { getCollections } from "../../utils";
+import { getCollections, assetHost } from "../../utils";
 import get from "lodash/get";
 import {
   Grid,
@@ -21,6 +21,10 @@ const useStyles = makeStyles((theme) => ({
   card: {
     minHeight: 345,
   },
+  media: {
+    height: 140,
+    backgroundColor: theme.palette.primary.light,
+  },
 }));
 
 const CollectionBox = (props) => {
@@ -35,18 +39,19 @@ const CollectionBox = (props) => {
       setStories(items);
     })();
   }, []);
-  console.log("test---------stories", stories);
   if (!stories.length) return null;
   return (
     <Grid container spacing={3} alignItems="stretch">
       {stories.slice(0, 10).map((item) => {
+        if (item.type !== "story") return null;
         const { story } = item;
         return (
           <Grid key={item.id} item xs={12} md={4} lg={3}>
             <Card className={classes.card}>
               <CardActionArea component={Link} to={story.slug}>
                 <CardMedia
-                  image="/static/images/cards/contemplative-reptile.jpg"
+                  className={classes.media}
+                  image={`${assetHost}/${story["hero-image-s3-key"]}?rect=658%2C0%2C5249%2C3937&auto=format%2Ccompress&fm=webp&format=webp&q=70&w=400`}
                   title={story.headline}
                 />
                 <CardContent>
